@@ -28,3 +28,54 @@ nmap -sS <ip>
 
 Если что-то прослушивает порт, возвращается пакет с флагом SYN. Тогда для завершения отправляется пакет с RST.
 
+![2](https://github.com/Aid1986/Vulnerabilities/blob/main/2.png)
+
+Может прийти пакет с RST, ACK – тогда порт в списке открытых не отобразится.
+
+![3](https://github.com/Aid1986/Vulnerabilities/blob/main/3.png)
+
+#### FIN
+
+```console
+nmap -sA <ip>
+```
+
+По протоколу TCP отправляет пакет с флагом FIN.
+
+Если никто не отвечает, отображает информацию по порту.
+
+![4](https://github.com/Aid1986/Vulnerabilities/blob/main/4.png)
+
+Если пришёл ответ, порт в список не добавляется.
+
+![5](https://github.com/Aid1986/Vulnerabilities/blob/main/5.png)
+
+#### Xmas
+
+```console
+nmap -sX <ip>
+```
+
+Ситуация примерно та же, что с FIN, только отпавляются три флага: FIN, PSH и URG:
+
+![6](https://github.com/Aid1986/Vulnerabilities/blob/main/6.png)
+
+![7](https://github.com/Aid1986/Vulnerabilities/blob/main/7.png)
+
+#### UDP
+
+```console
+nmap -sU <ip>
+```
+
+Отличие этого метода можно обнаружить и без Wireshark – он медленный. Зато Wireshark помогает понять, почему – пакеты отправляются неколько раз. Другое заметное отличие – использование другого протокола и различие в виде запроса для некоторых портов:
+
+![8](https://github.com/Aid1986/Vulnerabilities/blob/main/8.png)
+
+![9](https://github.com/Aid1986/Vulnerabilities/blob/main/9.png)
+
+Порты помечаются как открытые (но фильтрующие), если после нескольких попыток ответ не пришёл.
+
+При получении ICMP ответа о недостижимости порт считается закрытым.
+
+![10](https://github.com/Aid1986/Vulnerabilities/blob/main/10.png)
